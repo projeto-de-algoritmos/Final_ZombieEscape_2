@@ -82,7 +82,7 @@ class Graph {
 		let target = last_node;
 	
 		for(let i = 0; i < this.size; i++){
-			distance[i] = INF;
+			distance[i] = Math.max();
 		}
 		distance[start_node] = 0;
 	
@@ -93,7 +93,7 @@ class Graph {
 				let v = edge.dest;
 				let w = edge.weight;
 	
-				if(distance[u] != INF && distance[u] + w < distance[v]){
+				if(distance[u] != Math.max() && distance[u] + w < distance[v]){
 					distance[v] = distance[u] + w;
 					predecessor[v] = u;
 				}
@@ -106,7 +106,7 @@ class Graph {
 			let v = edge.dest;
 			let w = edge.weight;
 			
-			if(distance[u] != INF && distance[u] + w < distance[v]){
+			if(distance[u] != Math.max() && distance[u] + w < distance[v]){
 				
 				this.hasCycle = true;
 			}

@@ -31,14 +31,26 @@ class Stage {
 					this.floor_graph.addVertex(x * this.floor_layer.layer.width + y, {centerPosition: {y: x * this.floor_layer.layer.baseTileHeight + offset, x: y * this.floor_layer.layer.baseTileHeight + offset}});
 				
 		this.floor_graph.adjList.forEach((vertex, id) => {
-			if(this.floor_graph.getVertex(id + 1))
-				this.floor_graph.addEdge(id, id + 1);
-			
-			if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
-				this.floor_graph.addEdge(id, id + this.floor_layer.layer.width);
-			
-			if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
-				this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1);
+			var shit = this.ice_layer.getTileAtWorldXY(vertex.centerPosition.x, vertex.centerPosition.y)
+			if(shit) {
+				if(this.floor_graph.getVertex(id + 1))
+					this.floor_graph.addEdge(id, id + 1, -3);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width, -3);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1, -3);
+			} else {
+				if(this.floor_graph.getVertex(id + 1))
+					this.floor_graph.addEdge(id, id + 1, 1);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width, 1);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1, 1);
+			}
 		});
 	}
 }

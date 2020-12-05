@@ -6,6 +6,7 @@ class Enemy {
 		} else {
 			this.entity = game.physics.add.sprite(x, y, 'spr_enemy');
 		}
+		this.ice = ice;
 		this.entity.setScale(.18);
 		this.entity.setCollideWorldBounds(true);
 		this.target = player;
@@ -30,14 +31,14 @@ class Enemy {
 	followPath(player, stage){
 		var thisTile = stage.map.getTileAtWorldXY(this.entity.x, this.entity.y)
 		var playerTile = stage.map.getTileAtWorldXY(player.entity.x, player.entity.y)
-		console.log(playerTile)
-		console.log(thisTile)
+		//console.log(playerTile)
 		if(thisTile && playerTile) {
 			var thisNode = thisTile.x + (thisTile.y * stage.floor_layer.layer.width)
 			var playerNode = playerTile.x + (playerTile.y * stage.floor_layer.layer.width)
 			var next_vertex;
 			if(this.ice == true) {
-				next_vertex = stage.floor_graph.getVertex(stage.floor_graph.bellmanFord(thisNode, playerNode));
+				next_vertex = stage.floor_graph.getVertex(stage.floor_graph.bellmanFord(thisNode, playerNode)[0]);
+				console.log(this.ice)
 			} else {
 				next_vertex = stage.floor_graph.getVertex(stage.floor_graph.BFSShortestPath(thisNode, playerNode));
 			}

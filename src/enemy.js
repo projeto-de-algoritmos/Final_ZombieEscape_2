@@ -2,6 +2,7 @@ class Enemy {
 	health = 10;
 	constructor(game, x = 0, y = 0, player = null, collision_layer = null) {
 		this.entity = game.physics.add.sprite(x, y, 'spr_enemy');
+		this.entity.setScale(.18);
 		this.entity.setCollideWorldBounds(true);
 		this.target = player;
 		this.game = game;

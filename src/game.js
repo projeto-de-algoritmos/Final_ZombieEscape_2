@@ -5,7 +5,7 @@ var MainMenu = new Phaser.Class({
 	},
 	
 	preload: function() {
-		this.load.spritesheet('spr_enemy', 'assets/spr_enemy.png', { frameWidth: 32, frameHeight: 32 });
+		this.load.image('spr_enemy', 'assets/spr_enemy.png', { frameWidth: 32, frameHeight: 32 });
 		this.load.image('spr_target', 'assets/spr_target.png');
 		this.load.image('dude', 'assets/guy.png');
         this.load.image('sight', 'assets/sight.png');
@@ -43,7 +43,7 @@ var MainMenu = new Phaser.Class({
 		this.load.json('stage3_info', `src/stages/stage3_info.json`);
 
 		this.load.tilemapTiledJSON('boss_stage', 'src/stages/boss_stage.json');
-		this.load.json('boss_stage_info', `src/stages/stage3_info.json`);
+		this.load.json('boss_stage_info', `src/stages/boss_stage_info.json`);
 	},
 	
 	create: function() {

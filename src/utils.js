@@ -7,15 +7,22 @@ class Graph {
 	constructor() {
 		// this.vertices = 0;
 		this.adjList = new Map();
+		this.size = 0;
+		this.edges = 0;
+		this.edgeList = [];
+		this.hasCycle = false;
 	}
 	
 	addVertex(v, info = {}) {
 		this.adjList.set(v, {...info, edges: []});
+		this.size++;
 	}
 	
-	addEdge(v1, v2) {
-		this.adjList.get(v1).edges.push(v2);
-		this.adjList.get(v2).edges.push(v1);
+	addEdge(v1, v2, weight) {
+		this.adjList.get(v1).edges.push({edge: v2, weight: weight});
+		this.adjList.get(v2).edges.push({edge: v1, weight: weight});
+		this.edgeList.push({src: v1, dest: v2, weight: weight});
+		this.edges++;
 	}
 	
 	getVertex(v) {
@@ -66,5 +73,57 @@ class Graph {
 			
 		})
 		return path[0];
+	}
+
+	bellmanFord(start_node, last_node){
+		let distance = {};
+		let predecessor = {};
+		let path = [];
+		let target = last_node;
+	
+		for(let i = 0; i < this.size; i++){
+			distance[i] = INF;
+		}
+		distance[start_node] = 0;
+	
+		for(let i = 1; i < this.size; i++){
+			for(let j = 0; j < this.edges; j++){
+				let edge = this.edgeList[j]
+				let u = edge.src;
+				let v = edge.dest;
+				let w = edge.weight;
+	
+				if(distance[u] != INF && distance[u] + w < distance[v]){
+					distance[v] = distance[u] + w;
+					predecessor[v] = u;
+				}
+			}
+		}
+	
+		for(let i = 0; i < this.edges; i ++){
+			let edge = this.edgeList[i]
+			let u = edge.src;
+			let v = edge.dest;
+			let w = edge.weight;
+			
+			if(distance[u] != INF && distance[u] + w < distance[v]){
+				
+				this.hasCycle = true;
+			}
+					
+		}
+	
+		if(this.hasCycle){
+			console.log("Ciclo negativo");
+		}
+			
+		else{
+		
+			while(target != null){
+				path.unshift(target);
+				target = predecessor[target]
+			}
+		}
+		return path;
 	}
 }

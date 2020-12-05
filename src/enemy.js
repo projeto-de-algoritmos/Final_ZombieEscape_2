@@ -1,7 +1,11 @@
 class Enemy {
 	health = 10;
-	constructor(game, x = 0, y = 0, player = null, collision_layer = null) {
-		this.entity = game.physics.add.sprite(x, y, 'spr_enemy');
+	constructor(game, x = 0, y = 0, player = null, collision_layer = null, ice) {
+		if(ice) {
+			this.entity = game.physics.add.sprite(x, y, 'ice_zombie');
+		} else {
+			this.entity = game.physics.add.sprite(x, y, 'spr_enemy');
+		}
 		this.entity.setScale(.18);
 		this.entity.setCollideWorldBounds(true);
 		this.target = player;
@@ -26,10 +30,17 @@ class Enemy {
 	followPath(player, stage){
 		var thisTile = stage.map.getTileAtWorldXY(this.entity.x, this.entity.y)
 		var playerTile = stage.map.getTileAtWorldXY(player.entity.x, player.entity.y)
+		console.log(playerTile)
+		console.log(thisTile)
 		if(thisTile && playerTile) {
 			var thisNode = thisTile.x + (thisTile.y * stage.floor_layer.layer.width)
 			var playerNode = playerTile.x + (playerTile.y * stage.floor_layer.layer.width)
-			var next_vertex = stage.floor_graph.getVertex(stage.floor_graph.BFSShortestPath(thisNode, playerNode))
+			var next_vertex;
+			if(this.ice == true) {
+				next_vertex = stage.floor_graph.getVertex(stage.floor_graph.bellmanFord(thisNode, playerNode));
+			} else {
+				next_vertex = stage.floor_graph.getVertex(stage.floor_graph.BFSShortestPath(thisNode, playerNode));
+			}
 			this.entity.rotation = Phaser.Math.Angle.Between(this.entity.x, this.entity.y, next_vertex.centerPosition.x, next_vertex.centerPosition.y);
 			this.game.physics.velocityFromRotation(this.entity.rotation, 200, this.entity.body.velocity);
 		}
@@ -47,7 +58,7 @@ class Enemy {
 		switch(this.getInput()) {
 			case 0:
 				break;
-			case 1:
+				case 1:
 				this.followPath(player, stage);
 				break;
 			case 2:

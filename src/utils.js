@@ -45,15 +45,15 @@ class Graph {
 		while(queue.length > 0 && run) {
 			var uNode = queue.shift()
 			this.adjList.get(uNode).edges.forEach(vNode => {
-				if(!visitedNodes.includes(vNode) && run) {
+				if(!visitedNodes.includes(vNode.edge) && run) {
 					originTreeEdge.unshift(uNode)
-					destinationTreeEdge.unshift(vNode)
-					if(vNode == vDestination || uNode == vDestination) {
+					destinationTreeEdge.unshift(vNode.edge)
+					if(vNode.edge == vDestination || uNode == vDestination) {
 						run = false;
 					}
 					if(run) {
-						visitedNodes.push(vNode)
-						queue.push(vNode)
+						visitedNodes.push(vNode.edge)
+						queue.push(vNode.edge)
 					}
 				}
 			});

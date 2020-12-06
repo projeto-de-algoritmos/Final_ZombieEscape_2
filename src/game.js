@@ -5,7 +5,8 @@ var MainMenu = new Phaser.Class({
 	},
 	
 	preload: function() {
-		this.load.spritesheet('spr_enemy', 'assets/spr_enemy.png', { frameWidth: 32, frameHeight: 32 });
+		this.load.image('spr_enemy', 'assets/spr_enemy.png');
+		this.load.image('ice_zombie', 'assets/iceZombie.png');
 		this.load.image('spr_target', 'assets/spr_target.png');
 		this.load.image('dude', 'assets/guy.png');
         this.load.image('sight', 'assets/sight.png');
@@ -43,7 +44,7 @@ var MainMenu = new Phaser.Class({
 		this.load.json('stage3_info', `src/stages/stage3_info.json`);
 
 		this.load.tilemapTiledJSON('boss_stage', 'src/stages/boss_stage.json');
-		this.load.json('boss_stage_info', `src/stages/stage3_info.json`);
+		this.load.json('boss_stage_info', `src/stages/boss_stage_info.json`);
 	},
 	
 	create: function() {
@@ -67,7 +68,7 @@ var MainMenu = new Phaser.Class({
 		
 		start_game.on("pointerup", () => {
 			conf.play();
-			this.scene.start('st_b');
+			this.scene.start('boss_stage');
 			this.scene.stop('main_menu');
 		});
 		
@@ -89,7 +90,7 @@ var MainMenu = new Phaser.Class({
 var Stage1 = new Phaser.Class({
 	Extends: Phaser.Scene,
 	initialize: function Stage1() {
-		Phaser.Scene.call(this, {key: 'st_b'});
+		Phaser.Scene.call(this, {key: 'boss_stage'});
 	},
 	
 	preload: function() {	
@@ -112,21 +113,21 @@ function loadStage(stage_name, scene) {
 	scene.player = new Player(scene, 'dude', scene.stage.spawn_point.x, scene.stage.spawn_point.y);
 	scene.enemies = [];
 	scene.items = [];
-	console.log(scene.stage)
+	// console.log(scene.stage)
 	scene.end_area = scene.add.image(scene.stage.end_area.start.x, scene.stage.end_area.start.y, 'red').setOrigin(0).setDisplaySize(scene.stage.end_area.end.x - scene.stage.end_area.start.x, scene.stage.end_area.end.y - scene.stage.end_area.start.y).setAlpha(0);
 	
 	scene.physics.add.staticGroup(scene.end_area);
 	
 	scene.physics.add.overlap(scene.end_area, scene.player.entity, () => {
 		if(scene.stage_finished) {
-			game.scene.start(`st_${scene.next_stage}`);
+			game.scene.start(`boss_stage`);
 			game.scene.stop(scene.scene.key);
 			scene.stopped = true;
 		}
 	});
 	
-	scene.stage.enemies.forEach((position) => {
-		scene.enemies.push(new Enemy(scene, position.x, position.y, scene.player.entity, scene.stage.wall_layer));
+	scene.stage.enemies.forEach((info) => {
+		scene.enemies.push(new Enemy(scene, info.x, info.y, scene.player.entity, scene.stage.wall_layer, info.ice));
 	});
 	
 	scene.stage.items.forEach((item) => {

@@ -1,0 +1,48 @@
+{
+	"spawn_point": {
+		"x": 16,
+		"y": 306
+	},
+	"enemies": [
+		{
+			"x": 1024,
+			"y": 416,
+			"ice": false
+		},
+		{
+			"x": 1024,
+			"y": 256,
+			"ice": true
+		}
+	],
+	"end_area": {
+		"start": {
+			"x": 640,
+			"y": 0
+		},
+		"end": {
+			"x": 704,
+			"y": 48
+		}
+	},
+	"items": [
+		{
+			"name": "mp5",
+			"image": "mp5",
+			"x": 288,
+			"y": 258
+		},
+		{
+			"name": "ak47",
+			"image": "ak47",
+			"x": 288,
+			"y": 288
+		},
+		{
+			"name": "mouser",
+			"image": "mouser",
+			"x": 288,
+			"y": 384
+		}
+	]
+}

@@ -1,15 +1,13 @@
 class Stage {
 	constructor(game, stage_name, tileset='tilemap') {
-		this.map = game.make.tilemap({ key: stage_name });
+		this.map = game.make.tilemap({ key: 'boss_stage' });
+		this.ice_layer = this.map.createStaticLayer('Ice', tileset, 0, 0);
 		this.tileset = this.map.addTilesetImage(tileset);
 		this.background_layer = this.map.createStaticLayer('Background', tileset, 0, 0);
 		this.wall_layer = this.map.createStaticLayer('Walls', tileset, 0, 0);
 		this.floor_layer = this.map.createStaticLayer('Floor', tileset, 0, 0);
-		this.ice_layer = this.map.createStaticLayer('Ice', tileset, 0, 0);
-
-		//Dynamic loading is async and is pending a solution.
-		//game.load.json(stage_name, `/src/stages/${stage_name}_info.json`);
-		//game.load.start();
+		game.children.bringToTop(this.ice_layer);
+		
 		let stage_json = game.cache.json.get(stage_name + '_info');
 		this.spawn_point = stage_json.spawn_point;
 		this.enemies = stage_json.enemies;
@@ -30,14 +28,26 @@ class Stage {
 					this.floor_graph.addVertex(x * this.floor_layer.layer.width + y, {centerPosition: {y: x * this.floor_layer.layer.baseTileHeight + offset, x: y * this.floor_layer.layer.baseTileHeight + offset}});
 				
 		this.floor_graph.adjList.forEach((vertex, id) => {
-			if(this.floor_graph.getVertex(id + 1))
-				this.floor_graph.addEdge(id, id + 1);
-			
-			if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
-				this.floor_graph.addEdge(id, id + this.floor_layer.layer.width);
-			
-			if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
-				this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1);
+			var iceTile = this.ice_layer.getTileAtWorldXY(vertex.centerPosition.x, vertex.centerPosition.y);
+			if(iceTile) {
+				if(this.floor_graph.getVertex(id + 1))
+					this.floor_graph.addEdge(id, id + 1, 1);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width, 1);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1, 1);
+			} else {
+				if(this.floor_graph.getVertex(id + 1))
+					this.floor_graph.addEdge(id, id + 1, 3);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width, 3);
+				
+				if(this.floor_graph.getVertex(id + this.floor_layer.layer.width + 1))
+					this.floor_graph.addEdge(id, id + this.floor_layer.layer.width + 1, 3);
+			}
 		});
 	}
 }

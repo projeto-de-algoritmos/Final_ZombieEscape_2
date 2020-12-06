@@ -16,7 +16,7 @@ class Player {
     }
 
     getHit() {
-        console.log(this.health)
+        //console.log(this.health)
         this.health--;
         if(this.health <= 0) {
             this.entity.destroy()

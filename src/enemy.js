@@ -8,6 +8,7 @@ class Enemy {
 		}
 		var now = Date.now();
 		this.ice = ice;
+		this.speed = 200;
 		this.entity.setScale(.18);
 		this.entity.setCollideWorldBounds(true);
 		this.target = player;
@@ -29,7 +30,7 @@ class Enemy {
 
 	followTarget() {
 		this.entity.rotation = Phaser.Math.Angle.Between(this.entity.x, this.entity.y, this.target.x, this.target.y);
-		this.game.physics.velocityFromRotation(this.entity.rotation, 200, this.entity.body.velocity);
+		this.game.physics.velocityFromRotation(this.entity.rotation, this.speed, this.entity.body.velocity);
 	}
 
 	followPath(player, stage) {
@@ -78,7 +79,7 @@ class Enemy {
 			if (this.path[0]) {
 				var next_vertex = stage.floor_graph.getVertex(this.path[0]);
 				this.entity.rotation = Phaser.Math.Angle.Between(this.entity.x, this.entity.y, next_vertex.centerPosition.x, next_vertex.centerPosition.y);
-				this.game.physics.velocityFromRotation(this.entity.rotation, 200, this.entity.body.velocity);
+				this.game.physics.velocityFromRotation(this.entity.rotation, this.speed, this.entity.body.velocity);
 			} else {
 				this.game.physics.velocityFromRotation(this.entity.rotation, 0, this.entity.body.velocity);
 			}
@@ -94,6 +95,11 @@ class Enemy {
 	}
 
 	update(player, stage) {
+		if(this.ice && stage.ice_layer.getTileAtWorldXY(this.entity.x, this.entity.y)) {
+			this.speed = 600;
+		} else {
+			this.speed = 200;
+		}
 		switch (this.getInput()) {
 			case 0:
 				break;

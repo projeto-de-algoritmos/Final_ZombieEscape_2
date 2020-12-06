@@ -28,8 +28,8 @@ class Stage {
 					this.floor_graph.addVertex(x * this.floor_layer.layer.width + y, {centerPosition: {y: x * this.floor_layer.layer.baseTileHeight + offset, x: y * this.floor_layer.layer.baseTileHeight + offset}});
 				
 		this.floor_graph.adjList.forEach((vertex, id) => {
-			var shit = this.ice_layer.getTileAtWorldXY(vertex.centerPosition.x, vertex.centerPosition.y)
-			if(shit) {
+			var iceTile = this.ice_layer.getTileAtWorldXY(vertex.centerPosition.x, vertex.centerPosition.y);
+			if(iceTile) {
 				if(this.floor_graph.getVertex(id + 1))
 					this.floor_graph.addEdge(id, id + 1, 1);
 				

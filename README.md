@@ -1,5 +1,5 @@
 
-# [Zombie Escape 2](https://projeto-de-algoritmos.github.io/Final_ZombieEscape_2/)
+# [Zombie Escape 2](https://zombieescape2.netlify.app/)
 
 **Número da Lista**: 6<br>
 **Conteúdo da Disciplina**: Final<br>
@@ -13,7 +13,7 @@
 ## Sobre 
 Zombie Escape 2 é a evolução do [Zombie Escape](https://projeto-de-algoritmos.github.io/Grafos1_ZombieEscape/), um jogo em que vc tem que matar os dois inimigos para vencer.
 
-[Clique aqui](https://projeto-de-algoritmos.github.io/Final_ZombieEscape_2/) para jogar.
+[Clique aqui](https://zombieescape2.netlify.app/) para jogar.
 
 ## Screenshots
 

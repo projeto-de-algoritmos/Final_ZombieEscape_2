@@ -1,16 +1,13 @@
 class Stage {
 	constructor(game, stage_name, tileset='tilemap') {
 		this.map = game.make.tilemap({ key: 'boss_stage' });
-		//this.iceMap = game.make.tilemap({ key: 'boss_stage' });
 		this.ice_layer = this.map.createStaticLayer('Ice', tileset, 0, 0);
 		this.tileset = this.map.addTilesetImage(tileset);
 		this.background_layer = this.map.createStaticLayer('Background', tileset, 0, 0);
 		this.wall_layer = this.map.createStaticLayer('Walls', tileset, 0, 0);
 		this.floor_layer = this.map.createStaticLayer('Floor', tileset, 0, 0);
 		game.children.bringToTop(this.ice_layer);
-		//Dynamic loading is async and is pending a solution.
-		//game.load.json(stage_name, `/src/stages/${stage_name}_info.json`);
-		//game.load.start();
+		
 		let stage_json = game.cache.json.get(stage_name + '_info');
 		this.spawn_point = stage_json.spawn_point;
 		this.enemies = stage_json.enemies;

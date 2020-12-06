@@ -3,26 +3,24 @@ function cast_ray_into_tilemap(x0, y0, x1, y1, layer) {
 	return layer.getTilesWithinShape(ray, { isNotEmpty: true })
 }
 
+
+const INF = 999999999999999;
 class Graph {
 	constructor() {
 		// this.vertices = 0;
 		this.adjList = new Map();
-		this.size = 0;
-		this.edges = 0;
 		this.edgeList = [];
-		this.hasCycle = false;
 	}
 
 	addVertex(v, info = {}) {
 		this.adjList.set(v, { ...info, edges: [] });
-		this.size++;
 	}
 
 	addEdge(v1, v2, weight) {
 		this.adjList.get(v1).edges.push({ edge: v2, weight: weight });
 		this.adjList.get(v2).edges.push({ edge: v1, weight: weight });
 		this.edgeList.push({ src: v1, dest: v2, weight: weight });
-		this.edges++;
+		this.edgeList.push({ src: v2, dest: v1, weight: weight });
 	}
 
 	getVertex(v) {
@@ -79,6 +77,7 @@ class Graph {
 	}
 	
 	bellmanFord(start_node, last_node) {
+		console.log(start_node,last_node)
 		return new Promise((resolve, reject) => {
 			let distance = {};
 			let predecessor = {};
@@ -86,48 +85,32 @@ class Graph {
 			let target = last_node;
 
 			for (let i = 0; i < this.size; i++) {
-				distance[i] = Math.max();
+				distance[i] = INF;
 			}
 			distance[start_node] = 0;
 
-			for (let i = 1; i < this.size; i++) {
-				for (let j = 0; j < this.edges; j++) {
+			for (let i = 1; i < this.adjList.size; i++) {
+				for (let j = 0; j < this.edgeList.length; j++) {
 					let edge = this.edgeList[j]
 					let u = edge.src;
 					let v = edge.dest;
 					let w = edge.weight;
 
-					if (distance[u] != Math.max() && distance[u] + w < distance[v]) {
+					if ((distance[u] != INF) && ((distance[u] + w) < distance[v])) {
 						distance[v] = distance[u] + w;
 						predecessor[v] = u;
 					}
 				}
 			}
-
-			for (let i = 0; i < this.edges; i++) {
-				let edge = this.edgeList[i]
-				let u = edge.src;
-				let v = edge.dest;
-				let w = edge.weight;
-
-				if (distance[u] != Math.max() && distance[u] + w < distance[v]) {
-
-					this.hasCycle = true;
-				}
-
-			}
-
-			if (this.hasCycle) {
-				console.log("Ciclo negativo");
-			}
-
-			else {
-
+			console.log("distance", distance[target]);
+			console.log("predecessor",distance);
+			console.log("edges",this.edgeList);
+			console.log("adjList",this.adjList.size)
 				while (target != null) {
 					path.unshift(target);
 					target = predecessor[target]
 				}
-			}
+			
 			resolve(path);
 		});
 	}

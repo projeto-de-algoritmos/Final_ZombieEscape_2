@@ -53,8 +53,9 @@ class Enemy {
 				var playerNode = playerTile.x + (playerTile.y * stage.floor_layer.layer.width);
 				if (this.ice) {
 					const calculate = async () => {
-						console.log('bellman not done')
+						//console.log('bellman not done')
 						stage.floor_graph.bellmanFord(thisNode, playerNode).then((path) => {
+							console.log("Bellman",path)
 							this.path = path;
 							this.doneCalculating = true;
 							this.lastCalculated = now;
@@ -64,9 +65,10 @@ class Enemy {
 				} else {
 					const calculate = async () => {
 
-						console.log('bfsn not done')
+						//console.log('bfsn not done')
 						stage.floor_graph.BFSShortestPath(thisNode, playerNode).then((path) => {
 							this.path = path;
+							console.log("Bfs",path)
 							this.doneCalculating = true;
 							this.lastCalculated = now;
 						});
@@ -101,7 +103,7 @@ class Enemy {
 				this.followPath(player, stage);
 				break;
 			case 2:
-				this.followTarget();
+				this.followPath(player, stage);
 				break;
 		}
 	}

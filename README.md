@@ -17,7 +17,9 @@ Zombie Escape 2 é a evolução do [Zombie Escape](https://projeto-de-algoritmos
 
 ## Screenshots
 
-
+![](https://i.imgur.com/yiYPC4F.png)
+![](https://i.imgur.com/cdrZUtY.png)
+![](https://i.imgur.com/GsZFvGn.png)
 
 ## Instalação 
 **Linguagem**: Javascript<br>

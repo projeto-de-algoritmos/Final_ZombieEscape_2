@@ -3,11 +3,9 @@ function cast_ray_into_tilemap(x0, y0, x1, y1, layer) {
 	return layer.getTilesWithinShape(ray, { isNotEmpty: true })
 }
 
-
 const INF = 999999999999999;
 class Graph {
 	constructor() {
-		// this.vertices = 0;
 		this.adjList = new Map();
 		this.edgeList = [];
 	}
@@ -77,7 +75,6 @@ class Graph {
 	}
 
 	bellmanFord(start_node, last_node) {
-		console.log('bellman begin', start_node, last_node)
 		return new Promise((resolve, reject) => {
 			let distance = {};
 			let predecessor = {};
@@ -102,16 +99,12 @@ class Graph {
 					}
 				}
 			}
-			// console.log("distance", distance[target]);
-			// console.log("predecessor",distance);
-			// console.log("edges",this.edgeList);
-			// console.log("adjList",this.adjList.size)
-			console.log('shonbs', target , this.edgeList.length)
+
 			while (target != null) {
 				path.unshift(target);
 				target = predecessor[target]
 			}
-			console.log('bellman end', path, predecessor)
+
 			resolve(path);
 		});
 	}

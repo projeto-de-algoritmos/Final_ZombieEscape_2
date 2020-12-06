@@ -75,16 +75,16 @@ class Graph {
 			resolve(path);
 		});
 	}
-	
+
 	bellmanFord(start_node, last_node) {
-		console.log(start_node,last_node)
+		console.log('bellman begin', start_node, last_node)
 		return new Promise((resolve, reject) => {
 			let distance = {};
 			let predecessor = {};
 			let path = [];
 			let target = last_node;
 
-			for (let i = 0; i < this.size; i++) {
+			for (let i = 0; i < this.adjList.size; i++) {
 				distance[i] = INF;
 			}
 			distance[start_node] = 0;
@@ -95,22 +95,23 @@ class Graph {
 					let u = edge.src;
 					let v = edge.dest;
 					let w = edge.weight;
-
+					
 					if ((distance[u] != INF) && ((distance[u] + w) < distance[v])) {
 						distance[v] = distance[u] + w;
 						predecessor[v] = u;
 					}
 				}
 			}
-			console.log("distance", distance[target]);
-			console.log("predecessor",distance);
-			console.log("edges",this.edgeList);
-			console.log("adjList",this.adjList.size)
-				while (target != null) {
-					path.unshift(target);
-					target = predecessor[target]
-				}
-			
+			// console.log("distance", distance[target]);
+			// console.log("predecessor",distance);
+			// console.log("edges",this.edgeList);
+			// console.log("adjList",this.adjList.size)
+			console.log('shonbs', target , this.edgeList.length)
+			while (target != null) {
+				path.unshift(target);
+				target = predecessor[target]
+			}
+			console.log('bellman end', path, predecessor)
 			resolve(path);
 		});
 	}

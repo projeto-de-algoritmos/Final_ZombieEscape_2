@@ -113,7 +113,7 @@ function loadStage(stage_name, scene) {
 	scene.player = new Player(scene, 'dude', scene.stage.spawn_point.x, scene.stage.spawn_point.y);
 	scene.enemies = [];
 	scene.items = [];
-	console.log(scene.stage)
+	// console.log(scene.stage)
 	scene.end_area = scene.add.image(scene.stage.end_area.start.x, scene.stage.end_area.start.y, 'red').setOrigin(0).setDisplaySize(scene.stage.end_area.end.x - scene.stage.end_area.start.x, scene.stage.end_area.end.y - scene.stage.end_area.start.y).setAlpha(0);
 	
 	scene.physics.add.staticGroup(scene.end_area);

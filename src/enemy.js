@@ -46,16 +46,14 @@ class Enemy {
 			}
 		}
 		if (thisTile && playerTile) {
-			if (this.doneCalculating && ((now - this.lastCalculated) >= 500)) {
+			if (this.doneCalculating && ((now - this.lastCalculated) >= 1000)) {
 				this.doneCalculating = false;
 				var playerTile = stage.map.getTileAtWorldXY(player.entity.x, player.entity.y);
 				var thisNode = thisTile.x + (thisTile.y * stage.floor_layer.layer.width);
 				var playerNode = playerTile.x + (playerTile.y * stage.floor_layer.layer.width);
 				if (this.ice) {
 					const calculate = async () => {
-						//console.log('bellman not done')
 						stage.floor_graph.bellmanFord(thisNode, playerNode).then((path) => {
-							console.log("Bellman",path)
 							this.path = path;
 							this.doneCalculating = true;
 							this.lastCalculated = now;
@@ -68,7 +66,7 @@ class Enemy {
 						//console.log('bfsn not done')
 						stage.floor_graph.BFSShortestPath(thisNode, playerNode).then((path) => {
 							this.path = path;
-							console.log("Bfs",path)
+							// console.log("Bfs",path)
 							this.doneCalculating = true;
 							this.lastCalculated = now;
 						});
@@ -103,7 +101,7 @@ class Enemy {
 				this.followPath(player, stage);
 				break;
 			case 2:
-				this.followPath(player, stage);
+				this.followTarget();
 				break;
 		}
 	}
